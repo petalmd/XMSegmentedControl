@@ -87,6 +87,18 @@ open class XMSegmentedControl: UIView {
         }
     }
     
+    @IBInspectable open var separatorColor = UIColor.clear {
+        didSet {
+            self.update()
+        }
+    }
+    
+    @IBInspectable open var separatorAlpha: CGFloat = 1.0 {
+        didSet {
+            self.update()
+        }
+    }
+    
     /**
      Sets the segmented control content type to `Text` and uses the content of the array to create the segments.
      - Note: Only six elements will be displayed.
@@ -276,6 +288,13 @@ open class XMSegmentedControl: UIView {
                 let frame = CGRect(x: starting + (CGFloat(i) * width), y: 0, width: width, height: height)
                 let tab = UIButton(type: UIButtonType.system)
                 tab.frame = frame
+                
+                if i > 0 {
+                    let separator = UIView(frame: CGRect(x: 0, y: 0, width: 1, height: frame.size.height))
+                    separator.backgroundColor = separatorColor
+                    separator.alpha = separatorAlpha
+                    tab.addSubview(separator)
+                }
                 
                 switch contentType {
                 case .icon:
