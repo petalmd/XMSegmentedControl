@@ -87,12 +87,14 @@ open class XMSegmentedControl: UIView {
         }
     }
     
+    /// Sets the color of the separator between segments. Invisible by default.
     @IBInspectable open var separatorColor = UIColor.clear {
         didSet {
             self.update()
         }
     }
     
+    /// Sets the alpha for the separator between segments. Use it when you want to minimize separator visibility to not mess up with the segments highlight while the latter is animating. This is because separator is above the highlight.
     @IBInspectable open var separatorAlpha: CGFloat = 1.0 {
         didSet {
             self.update()
