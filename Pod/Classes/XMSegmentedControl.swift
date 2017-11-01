@@ -87,6 +87,20 @@ open class XMSegmentedControl: UIView {
         }
     }
     
+    /// Sets the color of the separator between segments. Invisible by default.
+    @IBInspectable open var separatorColor = UIColor.clear {
+        didSet {
+            self.update()
+        }
+    }
+    
+    /// Sets the alpha for the separator between segments. Use it when you want to minimize separator visibility to not mess up with the segments highlight while the latter is animating. This is because separator is above the highlight.
+    @IBInspectable open var separatorAlpha: CGFloat = 1.0 {
+        didSet {
+            self.update()
+        }
+    }
+    
     /**
      Sets the segmented control content type to `Text` and uses the content of the array to create the segments.
      - Note: Only six elements will be displayed.
@@ -277,6 +291,13 @@ open class XMSegmentedControl: UIView {
                 let tab = UIButton(type: UIButtonType.system)
                 tab.frame = frame
                 
+                if i > 0 {
+                    let separator = UIView(frame: CGRect(x: 0, y: 0, width: 1, height: frame.size.height))
+                    separator.backgroundColor = separatorColor
+                    separator.alpha = separatorAlpha
+                    tab.addSubview(separator)
+                }
+                
                 switch contentType {
                 case .icon:
                     tab.imageEdgeInsets = UIEdgeInsets(top: 12, left: 12, bottom: 12, right: 12)
@@ -304,7 +325,7 @@ open class XMSegmentedControl: UIView {
                     let text: String = segmentContent.text[i]
 
                     let halfSizeFont = UIFont(name: font.fontName, size: font.pointSize / 2.0)
-                    let textSize = NSString(string: text).size(attributes: [NSFontAttributeName: halfSizeFont])
+                    let textSize = NSString(string: text).size(attributes: [NSFontAttributeName: halfSizeFont as Any])
 
                     let spacing: CGFloat = 12
                     let imageHorizontalInset: CGFloat = (width - imageSize.width)/2
